@@ -1,6 +1,8 @@
 # DevPulse
 
-A local desktop dock for Windows that watches your AI coding tool usage — quota, runtime status, and activity — without sending anything anywhere. Everything runs on `127.0.0.1`.
+# DevPulse
+
+Monitore em tempo real o uso das suas ferramentas de IA para programação — quotas, runtimes e atividade — direto do Windows. O DevPulse roda localmente em `127.0.0.1`, sem backend remoto próprio.
 
 ## DevPulse em ação
 
