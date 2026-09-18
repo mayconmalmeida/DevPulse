@@ -1,0 +1,20 @@
+﻿{
+    "name":  "devpulse",
+    "version":  "0.13.0",
+    "description":  "Local desktop dock that monitors AI coding tool usage (Codex, Claude, Ollama, OpenCode, Gemini, Cursor) on 127.0.0.1.",
+    "main":  "src/server/index.js",
+    "scripts":  {
+                    "test":  "node test/smoke.js",
+                    "start":  "node src/server/index.js",
+                    "dev":  "node src/server/index.js"
+                },
+    "keywords":  [
+
+                 ],
+    "author":  "",
+    "license":  "MIT",
+    "type":  "commonjs",
+    "engines":  {
+                    "node":  "\u003e=18"
+                }
+}

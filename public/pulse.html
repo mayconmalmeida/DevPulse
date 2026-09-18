@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#080d10"
+  >
+
+  <title>DevPulse · Pulse</title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="/devpulse-logo.png"
+  >
+
+  <link
+    rel="shortcut icon"
+    type="image/png"
+    href="/devpulse-logo.png"
+  >
+
+  <link
+    rel="apple-touch-icon"
+    href="/devpulse-logo.png"
+  >
+
+  <link
+  rel="stylesheet"
+  href="/styles.css"
+>
+
+<link
+  rel="stylesheet"
+  href="/pulse.css"
+>
+</head>
+
+<body class="pulse-page">
+
+  <!--
+    Os logos dos providers agora usam assets oficiais
+    reais em /providers/ (ver PROVIDER_VISUALS em
+    pulse.js) — nenhum ícone desenhado à mão é mais
+    usado para identificar marcas de terceiros.
+  -->
+
+  <main
+    id="pulse"
+    class="pulse"
+  >
+
+    <!-- ======================================
+         EXPANDED
+    ======================================= -->
+
+    <section
+      id="expandedContent"
+      class="pulse-expanded"
+    >
+
+      <header class="pulse-header">
+
+        <div class="pulse-brand">
+
+          <img
+            src="/devpulse-logo.png"
+            alt="DevPulse"
+            class="pulse-brand-logo"
+          >
+
+          <div class="pulse-brand-copy">
+            <strong>DevPulse</strong>
+            <span>LIVE MONITOR</span>
+          </div>
+
+        </div>
+
+        <div class="pulse-header-actions">
+
+          <div
+            id="liveStatus"
+            class="pulse-live"
+          >
+            <span class="pulse-live-dot"></span>
+            LIVE
+          </div>
+
+          <button
+            id="collapseButton"
+            class="pulse-collapse-button"
+            type="button"
+            aria-label="Recolher para o dock"
+            title="Recolher"
+          >
+            ›
+          </button>
+
+        </div>
+
+      </header>
+
+      <!--
+        v0.11.0: a janela nativa do expanded permanece
+        590x590 (não mexemos na geometria) — o conteúdo do
+        meio (resumo, providers, próximo reset, atividade)
+        agora rola internamente, com header/footer sempre
+        fixos. Mesmo padrão já usado no dock.
+      -->
+      <div class="pulse-expanded-scroll">
+
+        <!--
+          Resumo operacional — visão rápida dos 6 providers
+          (não só Codex/Claude), respeitando a semântica
+          real de status (nunca inventa "quota" para quem
+          não tem).
+        -->
+        <section
+          id="operationalSummary"
+          class="pulse-summary"
+          aria-live="polite"
+        ></section>
+
+        <section
+          id="providerList"
+          class="pulse-providers"
+          aria-live="polite"
+        >
+          <div class="pulse-loading">
+            Consultando providers...
+          </div>
+        </section>
+
+        <section class="pulse-next-reset">
+
+          <span class="pulse-section-label">
+            PRÓXIMO RESET
+          </span>
+
+          <div id="nextReset">
+            <span class="reset-provider">
+              Consultando...
+            </span>
+          </div>
+
+        </section>
+
+        <!--
+          Alerts (v0.12.0) — só renderiza alertas realmente
+          ativos, detectados pelo backend (ver src/alerts),
+          nunca fixtures. Fica ACIMA de "Atividade recente"
+          de propósito: alert != activity, merece destaque
+          maior. Vazio mostra "Nenhum alerta ativo.".
+        -->
+        <section class="pulse-alerts">
+
+          <span class="pulse-section-label">
+            ALERTAS
+          </span>
+
+          <div
+            id="alertsList"
+            aria-live="polite"
+          >
+            <div class="alerts-empty">
+              Carregando...
+            </div>
+          </div>
+
+        </section>
+
+        <!--
+          Activity Timeline — eventos reais detectados pelo
+          backend (ver src/activity), nunca fixtures. Vazio
+          até que algo realmente mude.
+        -->
+        <section class="pulse-activity">
+
+          <span class="pulse-section-label">
+            ATIVIDADE RECENTE
+          </span>
+
+          <div
+            id="activityList"
+            aria-live="polite"
+          >
+            <div class="activity-empty">
+              Carregando...
+            </div>
+          </div>
+
+        </section>
+
+      </div>
+
+      <footer class="pulse-footer">
+
+        <span id="updatedAt">
+          Atualizando...
+        </span>
+
+        <div class="pulse-footer-actions">
+
+          <button
+            id="refreshButton"
+            type="button"
+            class="pulse-action-button"
+          >
+            Atualizar
+          </button>
+
+          <button
+            id="dashboardButton"
+            type="button"
+            class="pulse-action-button"
+          >
+            Dashboard
+          </button>
+
+        </div>
+
+      </footer>
+
+    </section>
+
+    <!-- ======================================
+         DOCK + DETAIL — v0.9
+    ======================================= -->
+
+    <section
+      id="dockContent"
+      class="pulse-dock"
+      aria-label="DevPulse dock"
+    >
+
+      <aside
+        id="detailPanel"
+        class="detail-panel"
+        aria-hidden="true"
+        aria-label="Detalhes do provider"
+      >
+
+        <div class="detail-panel-inner">
+
+          <header class="detail-header">
+
+            <div class="detail-header-icon" id="detailIcon"></div>
+
+            <div class="detail-header-copy">
+              <strong id="detailName">—</strong>
+              <span id="detailSubtitle">—</span>
+            </div>
+
+            <button
+              id="detailCloseButton"
+              class="detail-close-button"
+              type="button"
+              aria-label="Fechar detalhes"
+              title="Fechar"
+            >
+              ×
+            </button>
+
+          </header>
+
+          <div
+            id="detailBody"
+            class="detail-body"
+          ></div>
+
+        </div>
+
+      </aside>
+
+      <div class="dock-rail">
+
+        <div
+          id="dockTop"
+          class="dock-top"
+          title="DevPulse · Live"
+        >
+
+          <img
+            src="/devpulse-logo.png"
+            alt="DevPulse"
+            class="dock-logo"
+          >
+
+          <span
+            id="dockAlertBadge"
+            class="dock-alert-badge"
+            hidden
+          ></span>
+
+          <span
+            id="dockLive"
+            class="dock-live-dot"
+            aria-hidden="true"
+          ></span>
+
+        </div>
+
+        <div
+          id="dockProviderList"
+          class="dock-provider-list"
+          role="list"
+          aria-label="Providers monitorados"
+        >
+          <div class="dock-loading">…</div>
+        </div>
+
+        <div class="dock-bottom">
+
+          <button
+            id="dockExpandButton"
+            class="dock-bottom-button"
+            type="button"
+            aria-label="Expandir DevPulse"
+            title="Expandir"
+          >
+            ‹
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="/pulse.js"></script>
+
+</body>
+</html>

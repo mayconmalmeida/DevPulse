@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="color-scheme"
+    content="dark"
+  >
+
+  <title>DevPulse</title>
+
+  <link
+    rel="stylesheet"
+    href="/styles.css?v=0.5.1"
+  >
+
+  <link
+    rel="stylesheet"
+    href="/history.css?v=0.5.1"
+  >
+</head>
+
+<body>
+
+  <div class="shell">
+
+    <aside class="sidebar">
+
+      <div class="brand">
+
+        <div class="logo">
+          D
+        </div>
+
+        <div>
+          <strong>DevPulse</strong>
+          <span>AI Monitor</span>
+        </div>
+
+      </div>
+
+      <nav>
+
+        <button
+          class="nav-item active"
+          data-view="overview"
+        >
+          <span>◫</span>
+          Visão geral
+        </button>
+
+        <button
+          class="nav-item"
+          data-view="providers"
+        >
+          <span>⌁</span>
+          Providers
+        </button>
+
+        <button
+          class="nav-item"
+          data-view="history"
+        >
+          <span>◷</span>
+          Histórico
+        </button>
+
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        Serviço local ativo
+      </div>
+
+    </aside>
+
+    <main>
+
+      <header>
+
+        <div>
+
+          <p class="eyebrow">
+            LOCAL AI USAGE MONITOR
+          </p>
+
+          <h1 id="pageTitle">
+            Visão geral
+          </h1>
+
+          <p
+            id="pageSubtitle"
+            class="subtitle"
+          >
+            Limites e consumo das suas ferramentas de IA.
+          </p>
+
+        </div>
+
+        <div class="header-right">
+
+          <div class="live">
+            <span class="status-dot"></span>
+            LIVE
+          </div>
+
+          <button
+            id="refreshButton"
+            class="refresh"
+          >
+            Atualizar
+          </button>
+
+        </div>
+
+      </header>
+
+      <!-- ==============================
+           VISÃO GERAL
+      =============================== -->
+
+      <div
+        id="overviewView"
+        class="app-view active"
+      >
+
+        <section class="summary-grid">
+
+          <article class="summary">
+
+            <span>
+              PROVIDERS
+            </span>
+
+            <strong id="providerCount">
+              —
+            </strong>
+
+            <small>
+              monitorados
+            </small>
+
+          </article>
+
+          <article class="summary">
+
+            <span>
+              CONECTADOS
+            </span>
+
+            <strong id="connectedCount">
+              —
+            </strong>
+
+            <small>
+              agora
+            </small>
+
+          </article>
+
+          <article class="summary">
+
+            <span>
+              STATUS DE LIMITES
+            </span>
+
+            <strong id="alertCount">
+              —
+            </strong>
+
+            <small id="alertSummary">
+              verificando
+            </small>
+
+          </article>
+
+        </section>
+
+        <section class="section-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              PROVIDERS
+            </span>
+
+            <h2>
+              Consumo atual
+            </h2>
+
+          </div>
+
+          <span id="updatedAt">
+            —
+          </span>
+
+        </section>
+
+        <section
+          id="providersGrid"
+          class="providers-grid"
+        >
+
+          <div class="loading">
+            Consultando providers...
+          </div>
+
+        </section>
+
+        <section
+          id="detailsSection"
+          class="details-section"
+        ></section>
+
+      </div>
+
+      <!-- ==============================
+           PROVIDERS
+      =============================== -->
+
+      <div
+        id="providersView"
+        class="app-view"
+      >
+
+        <section class="summary-grid">
+
+          <article class="summary">
+
+            <span>
+              FERRAMENTAS
+            </span>
+
+            <strong id="detectedTotal">
+              —
+            </strong>
+
+            <small>
+              conhecidas
+            </small>
+
+          </article>
+
+          <article class="summary">
+
+            <span>
+              DETECTADAS
+            </span>
+
+            <strong id="detectedInstalled">
+              —
+            </strong>
+
+            <small>
+              nesta máquina
+            </small>
+
+          </article>
+
+          <article class="summary">
+
+            <span>
+              MONITORÁVEIS
+            </span>
+
+            <strong id="detectedMonitorable">
+              —
+            </strong>
+
+            <small>
+              agora
+            </small>
+
+          </article>
+
+        </section>
+
+        <section class="section-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              INVENTÁRIO LOCAL
+            </span>
+
+            <h2>
+              Providers e ferramentas
+            </h2>
+
+          </div>
+
+          <span id="detectionUpdatedAt">
+            —
+          </span>
+
+        </section>
+
+        <section
+          id="detectionGrid"
+          class="detection-grid"
+        >
+
+          <div class="loading">
+            Detectando ferramentas...
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- ==============================
+           HISTÓRICO
+      =============================== -->
+
+      <div
+        id="historyView"
+        class="app-view"
+      >
+
+        <section class="history-toolbar">
+
+          <div class="history-range">
+
+            <button
+              class="range-button active"
+              data-hours="24"
+            >
+              24 h
+            </button>
+
+            <button
+              class="range-button"
+              data-hours="168"
+            >
+              7 dias
+            </button>
+
+            <button
+              class="range-button"
+              data-hours="720"
+            >
+              30 dias
+            </button>
+
+          </div>
+
+          <span id="historyStatus">
+            Carregando histórico...
+          </span>
+
+        </section>
+
+        <section class="history-summary-grid">
+
+          <article class="summary">
+
+            <span>
+              SNAPSHOTS
+            </span>
+
+            <strong id="historySnapshotCount">
+              —
+            </strong>
+
+            <small>
+              no período
+            </small>
+
+          </article>
+
+          <article class="summary">
+
+            <span>
+              CODEX
+            </span>
+
+            <strong id="historyCodexCurrent">
+              —
+            </strong>
+
+            <small>
+              uso atual 5 h
+            </small>
+
+          </article>
+
+          <article class="summary">
+
+            <span>
+              CLAUDE
+            </span>
+
+            <strong id="historyClaudeCurrent">
+              —
+            </strong>
+
+            <small>
+              uso atual semanal
+            </small>
+
+          </article>
+
+        </section>
+
+        <section class="history-card">
+
+          <div class="history-card-head">
+
+            <div>
+
+              <span class="eyebrow">
+                TIMELINE
+              </span>
+
+              <h2>
+                Evolução de uso
+              </h2>
+
+            </div>
+
+            <span>
+              Dados coletados pelo DevPulse
+            </span>
+
+          </div>
+
+          <div
+            id="historyChart"
+            class="history-chart"
+          >
+
+            <div class="loading">
+              Aguardando snapshots...
+            </div>
+
+          </div>
+
+          <div class="chart-legend">
+
+            <span>
+              <i class="legend-dot codex-dot"></i>
+              Codex · 5 h
+            </span>
+
+            <span>
+              <i class="legend-dot claude-dot"></i>
+              Claude · semanal
+            </span>
+
+          </div>
+
+        </section>
+
+        <section class="history-card history-events-card">
+
+          <div class="history-card-head">
+
+            <div>
+
+              <span class="eyebrow">
+                SNAPSHOTS
+              </span>
+
+              <h2>
+                Coletas recentes
+              </h2>
+
+            </div>
+
+          </div>
+
+          <div
+            id="historyEvents"
+            class="history-events"
+          >
+
+            <div class="loading">
+              Nenhuma coleta ainda.
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+      <!-- ==============================
+           FOOTER
+      =============================== -->
+
+      <footer class="app-footer">
+        Feito por Maycon Malicheski
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script src="/app.js?v=0.5.1"></script>
+
+</body>
+
+</html>

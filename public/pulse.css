@@ -1,0 +1,1814 @@
+/* =========================================================
+   DEVPULSE PULSE — v0.9
+========================================================= */
+
+body.pulse-page {
+  margin: 0;
+
+  min-width: 0;
+  min-height: 0;
+
+  overflow: hidden;
+
+  background: #0b0f12;
+
+  color: #f4f7f8;
+
+  font-family:
+    Inter,
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+.pulse-page *,
+.pulse-page *::before,
+.pulse-page *::after {
+  box-sizing: border-box;
+}
+
+.pulse {
+  --health-normal: #38efad;
+  --health-warning: #ffc849;
+  --health-critical: #ff6577;
+  --health-offline: #586870;
+
+  width: 100vw;
+  height: 100vh;
+
+  padding: 10px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(52, 238, 170, 0.035),
+      transparent 38%
+    ),
+    #0b0f12;
+}
+
+/* =========================================================
+   EXPANDED
+========================================================= */
+
+.pulse-expanded {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border:
+    1px solid #263239;
+
+  border-radius: 20px;
+
+  background:
+    rgba(
+      8,
+      15,
+      18,
+      0.98
+    );
+
+  box-shadow:
+    0 18px 55px
+    rgba(
+      0,
+      0,
+      0,
+      0.28
+    );
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.pulse-header {
+  min-height: 76px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    15px 18px;
+
+  border-bottom:
+    1px solid #1e292f;
+}
+
+.pulse-brand {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.pulse-brand-logo {
+  width: 42px;
+  height: 42px;
+
+  display: block;
+
+  flex:
+    0 0 42px;
+
+  object-fit: cover;
+
+  border-radius: 11px;
+}
+
+.pulse-brand-copy {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.pulse-brand-copy strong {
+  color: #f8fafb;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 21px;
+
+  line-height: 1;
+}
+
+.pulse-brand-copy span {
+  color: #7fa6bb;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing:
+    0.16em;
+}
+
+.pulse-header-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.pulse-live {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: #38efad;
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.pulse-live-dot {
+  width: 7px;
+  height: 7px;
+
+  display: block;
+
+  border-radius: 999px;
+
+  background: #38efad;
+
+  box-shadow:
+    0 0 10px
+    rgba(
+      56,
+      239,
+      173,
+      0.65
+    );
+}
+
+.pulse-live.offline {
+  color: #ff6577;
+}
+
+.pulse-live.offline
+.pulse-live-dot {
+  background: #ff6577;
+
+  box-shadow:
+    0 0 10px
+    rgba(
+      255,
+      101,
+      119,
+      0.55
+    );
+}
+
+.pulse-collapse-button,
+.pulse-expand-button {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border:
+    1px solid #29363d;
+
+  border-radius: 11px;
+
+  background: #0d1519;
+
+  color: #d9edf7;
+
+  font-size: 24px;
+
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.pulse-collapse-button:hover,
+.pulse-expand-button:hover {
+  border-color: #3d5059;
+
+  background: #111c21;
+}
+
+/* =========================================================
+   PROVIDERS
+========================================================= */
+
+/*
+ * v0.11.0: única área rolável do expanded — header/footer
+ * continuam fixos, a janela nativa continua 590x590 (não
+ * alterada). Isso é o que permite acrescentar o resumo
+ * operacional e a atividade recente sem mexer na geometria
+ * já estabilizada na v0.9.1.
+ */
+.pulse-expanded-scroll {
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  scrollbar-width: thin;
+  scrollbar-color: #29363d transparent;
+}
+
+.pulse-expanded-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pulse-expanded-scroll::-webkit-scrollbar-thumb {
+  background: #29363d;
+
+  border-radius: 999px;
+}
+
+.pulse-summary {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  padding:
+    12px 18px 0;
+}
+
+.summary-chip {
+  padding: 5px 10px;
+
+  border: 1px solid #202c32;
+  border-radius: 999px;
+
+  background: #0d1519;
+
+  color: #9fc3d3;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.02em;
+}
+
+.summary-chip strong {
+  color: #f4f8fa;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 11px;
+
+  margin-right: 3px;
+}
+
+.summary-chip.is-positive strong {
+  color: var(--health-normal);
+}
+
+.pulse-alerts {
+  margin:
+    0 18px 16px;
+
+  padding-top: 16px;
+
+  border-top:
+    1px solid #202c32;
+}
+
+.alerts-empty {
+  padding: 10px 0;
+
+  color: #6f93a5;
+
+  font-size: 9px;
+}
+
+.alert-row {
+  padding: 7px 10px;
+
+  border-left: 3px solid var(--health-warning);
+  border-radius: 6px;
+
+  background: #0d1519;
+
+  color: #d5eaf3;
+
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.alert-row + .alert-row {
+  margin-top: 6px;
+}
+
+.alert-row.is-critical {
+  border-left-color: var(--health-critical);
+}
+
+.alert-row.is-info {
+  border-left-color: var(--health-normal);
+}
+
+.pulse-activity {
+  margin:
+    0 18px 16px;
+
+  padding-top: 16px;
+
+  border-top:
+    1px solid #202c32;
+}
+
+.activity-empty {
+  padding: 10px 0;
+
+  color: #6f93a5;
+
+  font-size: 9px;
+}
+
+.activity-row {
+  display: flex;
+  align-items: baseline;
+
+  gap: 10px;
+
+  padding: 7px 0;
+}
+
+.activity-row + .activity-row {
+  border-top:
+    1px solid #182229;
+}
+
+.activity-time {
+  flex: 0 0 auto;
+
+  color: #5f8396;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 10px;
+
+  white-space: nowrap;
+}
+
+.activity-body {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1px;
+}
+
+.activity-provider {
+  color: #83a9bc;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing: 0.08em;
+
+  text-transform: uppercase;
+}
+
+.activity-description {
+  color: #d5eaf3;
+
+  font-size: 10px;
+
+  line-height: 1.3;
+}
+
+.pulse-providers {
+  padding:
+    5px 18px 0;
+}
+
+.pulse-provider {
+  padding:
+    18px 0;
+}
+
+.pulse-provider +
+.pulse-provider {
+  border-top:
+    1px solid #202c32;
+}
+
+.provider-main {
+  display: grid;
+
+  grid-template-columns:
+    42px 1fr auto;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.provider-symbol {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  border:
+    1px solid #29363d;
+
+  border-radius: 11px;
+
+  background: #0d1519;
+
+  color: #ffffff;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.provider-symbol .provider-visual {
+  width: 28px;
+  height: 28px;
+}
+
+.provider-info {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.provider-info strong {
+  color: #f7f9fa;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 19px;
+
+  line-height: 1;
+}
+
+.provider-info span {
+  color: #79a4ba;
+
+  font-size: 9px;
+}
+
+.provider-percent {
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 27px;
+
+  line-height: 1;
+}
+
+.provider-percent.normal {
+  color: #38efad;
+}
+
+.provider-percent.warning {
+  color: #ffc849;
+}
+
+.provider-percent.critical {
+  color: #ff6577;
+}
+
+.provider-percent.unavailable {
+  color: #61717a;
+}
+
+.mini-usage {
+  margin-top: 13px;
+}
+
+.mini-progress {
+  width: 100%;
+  height: 6px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #223038;
+}
+
+.mini-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+}
+
+.mini-progress-fill.normal {
+  background: #38efad;
+}
+
+.mini-progress-fill.warning {
+  background: #ffc849;
+}
+
+.mini-progress-fill.critical {
+  background: #ff6577;
+}
+
+.mini-usage-meta {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 9px;
+
+  color: #5f8396;
+
+  font-size: 8px;
+}
+
+/* =========================================================
+   NEXT RESET
+========================================================= */
+
+.pulse-next-reset {
+  margin:
+    0 18px;
+
+  padding:
+    16px 0;
+
+  border-top:
+    1px solid #202c32;
+
+  border-bottom:
+    1px solid #202c32;
+}
+
+.pulse-section-label {
+  display: block;
+
+  margin-bottom: 13px;
+
+  color: #82a8bb;
+
+  font-size: 8px;
+  font-weight: 800;
+
+  letter-spacing:
+    0.16em;
+}
+
+.reset-provider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 14px;
+}
+
+.reset-provider-name {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: #83a9bc;
+
+  font-size: 10px;
+}
+
+.reset-dot {
+  width: 8px;
+  height: 8px;
+
+  flex:
+    0 0 8px;
+
+  display: block;
+
+  border-radius: 999px;
+
+  background: #38efad;
+}
+
+.reset-countdown {
+  color: #ffffff;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 20px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.pulse-footer {
+  min-height: 58px;
+
+  margin-top: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding:
+    12px 18px;
+}
+
+#updatedAt {
+  color: #557789;
+
+  font-size: 8px;
+}
+
+.pulse-footer-actions {
+  display: flex;
+
+  gap: 7px;
+}
+
+.pulse-action-button {
+  min-height: 30px;
+
+  padding:
+    0 10px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border:
+    1px solid #29363d;
+
+  border-radius: 9px;
+
+  background: #0d1519;
+
+  color: #83aec4;
+
+  font-family: inherit;
+
+  font-size: 8px;
+
+  text-decoration: none;
+
+  cursor: pointer;
+}
+
+.pulse-action-button:hover {
+  background: #111c21;
+
+  color: #d7edf7;
+}
+
+.pulse-action-button:disabled {
+  opacity: 0.5;
+
+  cursor: default;
+}
+
+/* =========================================================
+   STATES
+========================================================= */
+
+.pulse-loading,
+.pulse-error {
+  padding:
+    28px 0;
+
+  color: #7292a2;
+
+  font-size: 10px;
+}
+
+.pulse-error {
+  color: #ff8a97;
+}
+
+/* =========================================================
+   FOCUS / ACCESSIBILITY (global to Pulse)
+========================================================= */
+
+.pulse-page button:focus-visible {
+  outline:
+    2px solid
+    rgba(56, 239, 173, 0.7);
+
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   DOCK — v0.9.1
+   Coluna premium de providers, ancorada ao lado direito
+   da tela. Topo (logo/LIVE) e rodapé (expandir) ficam
+   fixos; apenas a lista de providers rola.
+========================================================= */
+
+.pulse-dock {
+  display: none;
+}
+
+.pulse.mode-dock .pulse-expanded {
+  display: none;
+}
+
+.pulse.mode-dock .pulse-dock {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+
+  gap: 10px;
+}
+
+.dock-rail {
+  /*
+   * Largura fixa: preenche o conteúdo da janela nativa no
+   * modo "dock" (170px passados ao MoveWindow, menos os
+   * 2x10px de padding do .pulse). Medido/confirmado na
+   * janela real (innerWidth ~164px neste hardware).
+   */
+  width: 144px;
+
+  flex: 0 0 144px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  overflow: hidden;
+
+  border:
+    1px solid #263239;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(11, 22, 26, 0.99) 0%,
+      rgba(7, 15, 18, 0.99) 100%
+    );
+
+  box-shadow:
+    inset 0 1px 0
+      rgba(255, 255, 255, 0.025),
+    0 12px 32px
+      rgba(0, 0, 0, 0.28);
+}
+
+/* =========================================================
+   DOCK TOP (fixo)
+========================================================= */
+
+.dock-top {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 4px;
+
+  padding: 9px 10px 7px;
+
+  border-bottom:
+    1px solid #1c2830;
+
+  cursor: default;
+}
+
+/*
+ * Indicador de alertas (v0.12.0) — badge discreto sobre o
+ * logo, `position:absolute` para nunca alterar a largura
+ * fixa de 170px do dock nem empurrar os providers. Só
+ * aparece quando existe >=1 alerta ATIVO real (nunca por
+ * fixture/exemplo).
+ */
+.dock-alert-badge {
+  position: absolute;
+  top: 6px;
+  right: 13px;
+
+  min-width: 12px;
+  height: 12px;
+
+  padding: 0 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: var(--health-warning);
+  box-shadow: 0 0 0 2px #0b161a;
+
+  color: #0b1114;
+
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.dock-alert-badge.is-critical {
+  background: var(--health-critical);
+  color: #180a0c;
+}
+
+.dock-alert-badge[hidden] {
+  display: none;
+}
+
+.dock-logo {
+  width: 24px;
+  height: 24px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 7px;
+
+  box-shadow:
+    0 0 0 1px
+      rgba(56, 239, 173, 0.08),
+    0 4px 12px
+      rgba(0, 0, 0, 0.25);
+}
+
+.dock-live-dot {
+  width: 5px;
+  height: 5px;
+
+  display: block;
+
+  border-radius: 999px;
+
+  background: var(--health-normal);
+
+  box-shadow:
+    0 0 6px
+      rgba(56, 239, 173, 0.7);
+}
+
+.dock-live-dot.offline {
+  background: var(--health-critical);
+
+  box-shadow:
+    0 0 6px
+      rgba(255, 101, 119, 0.65);
+}
+
+/* =========================================================
+   DOCK BOTTOM (fixo)
+========================================================= */
+
+.dock-bottom {
+  flex: 0 0 auto;
+
+  padding: 5px 10px 7px;
+
+  border-top:
+    1px solid #1c2830;
+}
+
+.dock-bottom-button {
+  width: 100%;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border:
+    1px solid #223138;
+
+  border-radius: 8px;
+
+  background:
+    rgba(13, 23, 27, 0.8);
+
+  color: #80a9bd;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease;
+}
+
+.dock-bottom-button:hover {
+  border-color: #344950;
+
+  background: #101d22;
+
+  color: #d6edf6;
+}
+
+/* =========================================================
+   DOCK PROVIDER LIST (única área rolável)
+========================================================= */
+
+.dock-provider-list {
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  gap: 5px;
+
+  padding: 7px 8px 5px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Scrollbar praticamente invisível, mas funcional — só
+     entra em jogo se providers futuros não couberem mais
+     na altura compacta atual. */
+  scrollbar-width: none;
+}
+
+.dock-provider-list::-webkit-scrollbar {
+  width: 0px;
+
+  background: transparent;
+}
+
+.dock-loading {
+  padding: 20px 0;
+
+  color: #61717a;
+
+  font-size: 9px;
+
+  text-align: center;
+}
+
+.dock-item {
+  width: 100%;
+
+  flex: 0 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border: none;
+
+  background: transparent;
+
+  color: inherit;
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition: opacity 150ms ease;
+}
+
+.dock-item:focus-visible {
+  border-radius: 12px;
+
+  outline:
+    2px solid
+    rgba(56, 239, 173, 0.7);
+
+  outline-offset: 1px;
+}
+
+/*
+ * Providers monitoráveis (Codex/Claude): apenas o anel +
+ * logo + percentual + micro-rótulo. Sem nome permanente —
+ * o dock fica discreto; o detail traz o resto.
+ */
+
+.dock-item-primary {
+  gap: 1px;
+
+  padding: 1px 2px;
+}
+
+.dock-item-badge {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+}
+
+.dock-item-primary .dock-item-badge {
+  width: 50px;
+  height: 50px;
+
+  flex: 0 0 50px;
+}
+
+.dock-item-primary.is-selected .dock-item-badge {
+  border-radius: 999px;
+
+  box-shadow:
+    0 0 0 2px
+      rgba(56, 239, 173, 0.35);
+}
+
+.dock-item-ring {
+  width: 50px;
+  height: 50px;
+
+  position: absolute;
+  inset: 0;
+
+  transform: rotate(-90deg);
+}
+
+.dock-item-ring .ring-bg {
+  fill: #0d1519;
+}
+
+.dock-item-ring .ring-track {
+  fill: none;
+  stroke: #202c32;
+  stroke-width: 3;
+}
+
+.dock-item-ring .ring-fill {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+
+  stroke-dasharray: 125.7;
+  stroke-dashoffset: var(--ring-offset, 125.7);
+
+  transition: stroke-dashoffset 400ms ease;
+}
+
+.ring-fill.normal { stroke: var(--health-normal); }
+.ring-fill.warning { stroke: var(--health-warning); }
+.ring-fill.critical { stroke: var(--health-critical); }
+.ring-fill.offline { stroke: var(--health-offline); }
+
+.dock-item-value {
+  max-width: 100%;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1.05;
+}
+
+.dock-item-value.normal { color: var(--health-normal); }
+.dock-item-value.warning { color: var(--health-warning); }
+.dock-item-value.critical { color: var(--health-critical); }
+.dock-item-value.offline { color: #61717a; }
+
+.dock-item-micro {
+  max-width: 100%;
+
+  color: #5f8396;
+
+  font-size: 6.8px;
+  font-weight: 800;
+
+  letter-spacing: 0.07em;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+}
+
+/*
+ * Providers secundários (Ollama/OpenCode/Gemini/Cursor):
+ * só logo + ponto de estado, em grid 2x2 — nome e estado
+ * ficam no title/aria-label (tooltip) e no detail.
+ */
+
+.dock-secondary-grid {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 4px 2px;
+
+  padding-top: 1px;
+}
+
+.dock-item-secondary {
+  padding: 2px;
+}
+
+.dock-item-secondary.is-dim {
+  opacity: 0.42;
+}
+
+.dock-item-secondary .dock-item-badge {
+  width: 32px;
+  height: 32px;
+
+  flex: 0 0 32px;
+}
+
+.dock-item-plain {
+  width: 32px;
+  height: 32px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #29363d;
+  border-radius: 9px;
+
+  background: #0d1519;
+
+  color: #9fc3d3;
+}
+
+.dock-item.is-selected .dock-item-plain,
+.dock-item:hover .dock-item-plain {
+  border-color: #3d5059;
+
+  background: #111c21;
+}
+
+/*
+ * Logo real do provider (asset local em /providers/).
+ * object-fit:contain preserva a proporção/viewBox
+ * original — nunca estica nem deforma a marca.
+ */
+.provider-visual {
+  width: 20px;
+  height: 20px;
+
+  display: block;
+
+  object-fit: contain;
+
+  /*
+   * position:relative (sem deslocamento) entra na mesma
+   * camada de pintura do anel absoluto — sem isso, o
+   * fundo do anel (ring-bg) pinta por cima do logo e o
+   * esconde por completo.
+   */
+  position: relative;
+  z-index: 1;
+
+  border-radius: 5px;
+}
+
+.dock-item-primary .provider-visual {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 8px;
+}
+
+.dock-item-icon-fallback {
+  position: relative;
+  z-index: 1;
+
+  color: #d5eaf3;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.dock-item-dot {
+  width: 7px;
+  height: 7px;
+
+  position: absolute;
+
+  top: -1px;
+  right: -1px;
+
+  display: block;
+
+  border: 2px solid #0b1519;
+  border-radius: 999px;
+
+  background: var(--health-offline);
+}
+
+.dock-item-dot.normal { background: var(--health-normal); }
+.dock-item-dot.warning { background: var(--health-warning); }
+.dock-item-dot.critical { background: var(--health-critical); }
+
+/*
+ * Loading inicial: nunca afirmamos "indisponível" antes
+ * do primeiro fetch responder — apenas um estado neutro,
+ * discretamente pulsante.
+ */
+
+.dock-item.is-loading {
+  opacity: 0.55;
+
+  animation: dockItemPulse 1.6s ease-in-out infinite;
+}
+
+.dock-item.is-loading .dock-item-plain,
+.dock-item.is-loading .dock-item-ring .ring-track {
+  border-color: #202c32;
+}
+
+@keyframes dockItemPulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.7; }
+}
+
+/* =========================================================
+   DETAIL PANEL
+========================================================= */
+
+.detail-panel {
+  width: 0;
+
+  flex: 0 0 auto;
+
+  overflow: hidden;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transition:
+    width 180ms ease,
+    opacity 150ms ease;
+}
+
+.pulse.mode-detail .detail-panel {
+  /*
+   * Largura fixa: corresponde ao
+   * conteúdo extra da janela nativa
+   * no modo "detail" (detailWidth 480px
+   * - dockWidth 150px - gap 10px -
+   * padding do .pulse 20px).
+   */
+  width: 300px;
+
+  opacity: 1;
+
+  pointer-events: auto;
+}
+
+.detail-panel-inner {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border: 1px solid #263239;
+  border-radius: 17px;
+
+  background: rgba(8, 15, 18, 0.98);
+
+  box-shadow:
+    0 12px 32px
+      rgba(0, 0, 0, 0.28);
+}
+
+.detail-header {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 14px 14px 12px;
+
+  border-bottom: 1px solid #1c2830;
+}
+
+.detail-header-icon {
+  width: 34px;
+  height: 34px;
+
+  flex: 0 0 34px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #29363d;
+  border-radius: 10px;
+
+  background: #0d1519;
+
+  color: #d5eaf3;
+}
+
+.detail-header-icon .provider-visual {
+  width: 22px;
+  height: 22px;
+}
+
+.detail-header-copy {
+  min-width: 0;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.detail-header-copy strong {
+  color: #f8fafb;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 16px;
+
+  line-height: 1.1;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-header-copy span {
+  color: #79a4ba;
+
+  font-size: 9px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-close-button {
+  width: 28px;
+  height: 28px;
+
+  flex: 0 0 28px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 1px solid #29363d;
+  border-radius: 9px;
+
+  background: #0d1519;
+
+  color: #d9edf7;
+
+  font-size: 16px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.detail-close-button:hover {
+  border-color: #3d5059;
+  background: #111c21;
+}
+
+.detail-body {
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  overflow-y: auto;
+
+  padding: 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+}
+
+.detail-metric {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+
+  gap: 10px;
+}
+
+.detail-percent {
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 30px;
+  line-height: 1;
+}
+
+.detail-percent.normal { color: var(--health-normal); }
+.detail-percent.warning { color: var(--health-warning); }
+.detail-percent.critical { color: var(--health-critical); }
+.detail-percent.offline { color: #61717a; }
+
+.detail-window-label {
+  color: #82a8bb;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+
+  text-transform: uppercase;
+}
+
+.detail-progress {
+  width: 100%;
+  height: 7px;
+
+  margin-top: 8px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #223038;
+}
+
+.detail-progress-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  transition: width 300ms ease;
+}
+
+.detail-progress-fill.normal { background: var(--health-normal); }
+.detail-progress-fill.warning { background: var(--health-warning); }
+.detail-progress-fill.critical { background: var(--health-critical); }
+.detail-progress-fill.offline { background: var(--health-offline); }
+
+.detail-meta-row,
+.detail-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 9px;
+
+  color: #83a9bc;
+
+  font-size: 10px;
+}
+
+.detail-meta-row strong,
+.detail-status-row strong {
+  color: #f4f8fa;
+
+  font-weight: 700;
+}
+
+.detail-block + .detail-block {
+  padding-top: 14px;
+
+  border-top: 1px solid #1c2830;
+}
+
+.detail-breakdown ul,
+.detail-models {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.detail-breakdown-row {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.detail-breakdown-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  color: #9fc3d3;
+
+  font-size: 9px;
+}
+
+.detail-breakdown-bar {
+  width: 100%;
+  height: 4px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #223038;
+}
+
+.detail-breakdown-bar-fill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: var(--health-normal);
+}
+
+.detail-note {
+  margin: 0;
+
+  color: #6f93a5;
+
+  font-size: 9px;
+
+  line-height: 1.4;
+}
+
+.detail-freshness {
+  margin: 12px 0 0;
+
+  padding-top: 10px;
+
+  border-top: 1px solid #182229;
+
+  color: #5f8396;
+
+  font-size: 8px;
+
+  letter-spacing: 0.02em;
+}
+
+.detail-freshness.is-stale {
+  color: var(--health-warning);
+}
+
+/*
+ * Nota discreta de alerta DevPulse no detail (v0.12.0) —
+ * texto explicitamente prefixado "Limite DevPulse"/"Saúde
+ * DevPulse" para nunca ser confundido com uma classificação
+ * oficial do provider.
+ */
+.detail-alert-note {
+  margin: 8px 0 0;
+
+  padding: 6px 8px;
+
+  border-radius: 6px;
+
+  background: #0d1519;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 0.02em;
+
+  color: var(--health-warning);
+}
+
+.detail-alert-note.is-critical {
+  color: var(--health-critical);
+}
+
+.detail-alert-note.is-info {
+  color: var(--health-normal);
+}
+
+.detail-model-row {
+  padding: 6px 8px;
+
+  border: 1px solid #202c32;
+  border-radius: 8px;
+
+  background: #0d1519;
+
+  color: #b9d7e3;
+
+  font-size: 9px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.detail-model-row.is-active {
+  border-color:
+    rgba(56, 239, 173, 0.4);
+}
+
+.detail-model-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+}
+
+.detail-model-badge {
+  padding: 1px 5px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(56, 239, 173, 0.15);
+
+  color: var(--health-normal);
+
+  font-size: 7px;
+  font-weight: 800;
+
+  letter-spacing: 0.05em;
+
+  white-space: nowrap;
+}
+
+.detail-model-meta {
+  color: #6f93a5;
+
+  font-size: 8px;
+}
+
+.detail-empty {
+  padding: 12px 0;
+
+  color: #6f93a5;
+
+  font-size: 10px;
+}
+
+/* =========================================================
+   SMALL WINDOW
+========================================================= */
+
+@media (
+  max-height: 470px
+) {
+  .pulse-header {
+    min-height: 64px;
+
+    padding:
+      10px 15px;
+  }
+
+  .pulse-brand-logo {
+    width: 36px;
+    height: 36px;
+
+    flex-basis: 36px;
+  }
+
+  .pulse-provider {
+    padding:
+      12px 0;
+  }
+
+  .pulse-next-reset {
+    padding:
+      12px 0;
+  }
+
+  .pulse-footer {
+    min-height: 48px;
+
+    padding:
+      8px 18px;
+  }
+
+  .dock-provider-list {
+    gap: 10px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .dock-logo,
+  .dock-item-ring .ring-fill,
+  .detail-panel,
+  .detail-progress-fill {
+    transition: none !important;
+  }
+}
