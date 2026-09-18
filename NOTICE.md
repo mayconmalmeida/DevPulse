@@ -14,11 +14,11 @@ affiliated with, endorsed by, or sponsored by** any of the companies below.
 | `public/providers/gemini.png` | Google Gemini | Google |
 | `public/providers/cursor.svg` | Cursor | Anysphere (Cursor) |
 
-**Pending before public release:** the exact provenance of each file above
-(e.g., downloaded from the vendor's official brand/press kit vs. their
-website) was not recorded at the time each was added to this project. The
-project owner should confirm the source and usage terms for each logo
-before the first public release, and update this table accordingly.
+**Pending:** the exact provenance of each file above (e.g., downloaded from
+the vendor's official brand/press kit vs. their website) was not recorded
+at the time each was added to this project. The project owner should
+confirm the source and usage terms for each logo and update this table
+accordingly.
 
 All product names, logos, and brands are property of their respective
 owners. Use of these names/logos here is for identification purposes only

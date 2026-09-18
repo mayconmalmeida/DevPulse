@@ -9,6 +9,11 @@ node_modules/
 data/*.jsonl
 data/alerts-config.json
 
+# Identidade opaca e aleatória desta instalação (v0.13.1) -
+# nunca deve ser versionada: um clone/ZIP novo precisa gerar a
+# sua própria, nunca herdar a de outra cópia.
+data/instance-id
+
 # Logs, temp, cache, debug output
 *.log
 logs/

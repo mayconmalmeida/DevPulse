@@ -54,12 +54,24 @@ if not exist "%~dp0node_modules" (
 )
 
 rem "Ja esta rodando" so conta se a porta 4173 responder como
-rem o PROPRIO DevPulse (campo "service":"DevPulse" no corpo
-rem de /api/health) - nunca assume isso so pelo HTTP 200, para
-rem nao confundir com outro processo desconhecido usando a
-rem mesma porta (v0.13.0, Fase 10).
-powershell -NoProfile -Command ^
-  "try { $r = Invoke-WebRequest 'http://127.0.0.1:4173/api/health' -UseBasicParsing -TimeoutSec 1; if ($r.StatusCode -eq 200) { $body = $r.Content | ConvertFrom-Json; if ($body.service -eq 'DevPulse') { exit 0 } else { exit 2 } } } catch {}; exit 1"
+rem ESTA MESMA instalacao - nunca so pelo campo "service" do
+rem corpo de /api/health, porque duas instalacoes diferentes do
+rem DevPulse podem responder com o mesmo "service" (e ate a
+rem mesma "version"). A distincao real e feita comparando o
+rem instanceId local (data\instance-id) com o instanceId devolvido
+rem pela porta 4173 (pulse-handshake.ps1, v0.13.1).
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0pulse-handshake.ps1"
+
+if errorlevel 3 (
+    echo.
+    echo [DevPulse] A porta 4173 ja esta em uso por OUTRA instalacao
+    echo [DevPulse] do DevPulse ^(pasta diferente desta^). Para evitar
+    echo [DevPulse] abrir o Pulse errado, esta copia nao vai continuar.
+    echo [DevPulse] Feche a outra instalacao do DevPulse e tente de novo.
+    echo.
+    pause
+    exit /b 1
+)
 
 if errorlevel 2 (
     echo.

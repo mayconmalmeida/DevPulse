@@ -35,10 +35,26 @@ const {
   updateConfig: updateAlertsConfig
 } = require("../alerts/config");
 
-const HOST = "127.0.0.1";
-const PORT = 4173;
+const {
+  getInstanceId
+} = require("./instance");
 
-const VERSION = "0.13.0";
+const HOST = "127.0.0.1";
+
+/*
+ * DEVPULSE_PORT existe só para permitir que a suíte de testes
+ * suba instâncias isoladas em portas alternativas (clean-room,
+ * duas instalações em paralelo) sem nunca disputar a porta
+ * 4173 de produção. Em uso normal (DevPulse.bat) a variável
+ * nunca é definida e a porta continua sendo sempre 4173.
+ */
+const PORT =
+  Number(process.env.DEVPULSE_PORT) ||
+  4173;
+
+const VERSION = "0.13.1";
+
+const INSTANCE_ID = getInstanceId();
 
 const PULSE_WINDOW_MODES = [
   "expanded",
@@ -546,6 +562,9 @@ const server =
 
               version:
                 VERSION,
+
+              instanceId:
+                INSTANCE_ID,
 
               timestamp:
                 new Date()

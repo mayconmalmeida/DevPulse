@@ -45,12 +45,10 @@ Nenhuma dependência de terceiros é necessária hoje — o backend usa apenas m
 ### Opção Git
 
 ```
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/mayconmalmeida/DevPulse.git
 cd DevPulse
 DevPulse.bat
 ```
-
-> A URL final do repositório será adicionada aqui quando o projeto for publicado.
 
 `DevPulse.bat` verifica Node.js e Microsoft Edge, inicia o servidor local se ele ainda não estiver rodando, e abre o Pulse. Se alguma dependência estiver faltando, uma mensagem clara é exibida — nada é instalado silenciosamente além de eventuais dependências do próprio projeto via `npm install` (hoje, nenhuma).
 
@@ -117,4 +115,4 @@ npm test
 
 ## Licença
 
-A licença deste projeto ainda **não foi definida** pelo proprietário. Um arquivo `LICENSE` será adicionado antes da publicação pública oficial. Até lá, todos os direitos permanecem reservados ao autor.
+DevPulse é distribuído sob a [MIT License](LICENSE).
