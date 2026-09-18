@@ -444,7 +444,7 @@ function renderProvider(provider) {
     !usageWindow
   ) {
     return `
-      <article class="pulse-provider">
+      <article class="pulse-provider" data-provider="${escapeHtml(provider.id)}">
 
         <div class="provider-main">
 
@@ -491,7 +491,7 @@ function renderProvider(provider) {
     );
 
   return `
-    <article class="pulse-provider">
+    <article class="pulse-provider" data-provider="${escapeHtml(provider.id)}">
 
       <div class="provider-main">
 
@@ -674,7 +674,7 @@ function renderNextReset() {
   }
 
   container.innerHTML = `
-    <div class="reset-provider">
+    <div class="reset-provider" data-provider="${escapeHtml(next.provider.id)}">
 
       <span class="reset-provider-name">
 
@@ -864,7 +864,7 @@ function renderActivity() {
   container.innerHTML = activityEvents
     .map(
       (event) => `
-        <div class="activity-row">
+        <div class="activity-row" data-provider="${escapeHtml(event.providerId || "")}">
           <span class="activity-time">
             ${formatEventTime(event.timestamp)}
           </span>

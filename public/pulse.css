@@ -54,6 +54,23 @@ body.pulse-page {
 ========================================================= */
 
 .pulse-expanded {
+  /*
+   * Identidade cromática por provider (v0.13.1) — escopada só
+   * ao expanded, nunca ao dock/detail (que continuam usando só
+   * --health-normal/warning/critical, definidas em .pulse).
+   * Cor de provider != severidade: os thresholds de 70%/90%
+   * continuam âmbar/vermelho para TODOS os providers, sempre
+   * com precedência sobre a cor normal (ver .provider-percent
+   * e .mini-progress-fill mais abaixo — o accent só é aplicado
+   * na classe ".normal", nunca em ".warning"/".critical").
+   */
+  --accent-codex: #38efad;
+  --accent-claude: #b18cff;
+  --accent-ollama: #45d6e6;
+  --accent-opencode: #5b93ff;
+  --accent-gemini: #8aa4bb;
+  --accent-cursor: #9db2c2;
+
   width: 100%;
   height: 100%;
 
@@ -90,14 +107,14 @@ body.pulse-page {
 ========================================================= */
 
 .pulse-header {
-  min-height: 76px;
+  min-height: 62px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   padding:
-    15px 18px;
+    11px 18px;
 
   border-bottom:
     1px solid #1e292f;
@@ -288,7 +305,7 @@ body.pulse-page {
   gap: 8px;
 
   padding:
-    12px 18px 0;
+    8px 18px 0;
 }
 
 .summary-chip {
@@ -435,6 +452,30 @@ body.pulse-page {
   text-transform: uppercase;
 }
 
+.activity-row[data-provider="codex"] .activity-provider {
+  color: var(--accent-codex);
+}
+
+.activity-row[data-provider="claude"] .activity-provider {
+  color: var(--accent-claude);
+}
+
+.activity-row[data-provider="ollama"] .activity-provider {
+  color: var(--accent-ollama);
+}
+
+.activity-row[data-provider="opencode"] .activity-provider {
+  color: var(--accent-opencode);
+}
+
+.activity-row[data-provider="gemini"] .activity-provider {
+  color: var(--accent-gemini);
+}
+
+.activity-row[data-provider="cursor"] .activity-provider {
+  color: var(--accent-cursor);
+}
+
 .activity-description {
   color: #d5eaf3;
 
@@ -500,6 +541,35 @@ body.pulse-page {
   height: 28px;
 }
 
+/*
+ * Aro discreto com o accent do provider — identidade visual
+ * sem pintar uma área grande. Independe de severidade de
+ * propósito (o ícone é "quem", não "quão perto do limite").
+ */
+.pulse-provider[data-provider="codex"] .provider-symbol {
+  border-color: var(--accent-codex);
+}
+
+.pulse-provider[data-provider="claude"] .provider-symbol {
+  border-color: var(--accent-claude);
+}
+
+.pulse-provider[data-provider="ollama"] .provider-symbol {
+  border-color: var(--accent-ollama);
+}
+
+.pulse-provider[data-provider="opencode"] .provider-symbol {
+  border-color: var(--accent-opencode);
+}
+
+.pulse-provider[data-provider="gemini"] .provider-symbol {
+  border-color: var(--accent-gemini);
+}
+
+.pulse-provider[data-provider="cursor"] .provider-symbol {
+  border-color: var(--accent-cursor);
+}
+
 .provider-info {
   min-width: 0;
 
@@ -555,6 +625,40 @@ body.pulse-page {
   color: #61717a;
 }
 
+/*
+ * Identidade por provider (v0.13.1) — só sobrepõe o estado
+ * ".normal". warning/critical continuam âmbar/vermelho para
+ * QUALQUER provider, sempre por cima (a severidade nunca perde
+ * para a cor de identidade — ver regras acima, aplicadas antes
+ * e com a mesma especificidade, mas o JS só marca ".normal"
+ * quando o percentual está abaixo de 70%, então não há conflito
+ * real de precedência: cada card só carrega uma dessas classes
+ * por vez).
+ */
+.pulse-provider[data-provider="codex"] .provider-percent.normal {
+  color: var(--accent-codex);
+}
+
+.pulse-provider[data-provider="claude"] .provider-percent.normal {
+  color: var(--accent-claude);
+}
+
+.pulse-provider[data-provider="ollama"] .provider-percent.normal {
+  color: var(--accent-ollama);
+}
+
+.pulse-provider[data-provider="opencode"] .provider-percent.normal {
+  color: var(--accent-opencode);
+}
+
+.pulse-provider[data-provider="gemini"] .provider-percent.normal {
+  color: var(--accent-gemini);
+}
+
+.pulse-provider[data-provider="cursor"] .provider-percent.normal {
+  color: var(--accent-cursor);
+}
+
 .mini-usage {
   margin-top: 13px;
 }
@@ -586,6 +690,30 @@ body.pulse-page {
 
 .mini-progress-fill.critical {
   background: #ff6577;
+}
+
+.pulse-provider[data-provider="codex"] .mini-progress-fill.normal {
+  background: var(--accent-codex);
+}
+
+.pulse-provider[data-provider="claude"] .mini-progress-fill.normal {
+  background: var(--accent-claude);
+}
+
+.pulse-provider[data-provider="ollama"] .mini-progress-fill.normal {
+  background: var(--accent-ollama);
+}
+
+.pulse-provider[data-provider="opencode"] .mini-progress-fill.normal {
+  background: var(--accent-opencode);
+}
+
+.pulse-provider[data-provider="gemini"] .mini-progress-fill.normal {
+  background: var(--accent-gemini);
+}
+
+.pulse-provider[data-provider="cursor"] .mini-progress-fill.normal {
+  background: var(--accent-cursor);
 }
 
 .mini-usage-meta {
@@ -663,7 +791,27 @@ body.pulse-page {
 
   border-radius: 999px;
 
-  background: #38efad;
+  background: var(--accent-codex);
+}
+
+.reset-provider[data-provider="claude"] .reset-dot {
+  background: var(--accent-claude);
+}
+
+.reset-provider[data-provider="ollama"] .reset-dot {
+  background: var(--accent-ollama);
+}
+
+.reset-provider[data-provider="opencode"] .reset-dot {
+  background: var(--accent-opencode);
+}
+
+.reset-provider[data-provider="gemini"] .reset-dot {
+  background: var(--accent-gemini);
+}
+
+.reset-provider[data-provider="cursor"] .reset-dot {
+  background: var(--accent-cursor);
 }
 
 .reset-countdown {
