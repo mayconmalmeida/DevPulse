@@ -2,9 +2,15 @@
 
 A local desktop dock for Windows that watches your AI coding tool usage — quota, runtime status, and activity — without sending anything anywhere. Everything runs on `127.0.0.1`.
 
-## Screenshot
+## DevPulse em ação
 
-> _Screenshot coming soon._
+<p align="center">
+  <img
+    src="public/DevPulse-%20Seu%20Ritmo%20Sob%20Controle.png"
+    alt="DevPulse — Seu Ritmo Sob Controle"
+    width="100%"
+  />
+</p>
 
 ## O que monitora
 
